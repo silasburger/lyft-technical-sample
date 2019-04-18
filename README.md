@@ -31,7 +31,7 @@ note - you should have python3 installed
 
 ## Run Tests
 
-2. cd into the root project directory and run the following command
+1. cd into the root project directory and run the following command
 ```bash
   $ python3 -m unittest test.py
 ```
