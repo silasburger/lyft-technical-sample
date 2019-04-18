@@ -16,6 +16,10 @@ def test():
 
     if req_string is None:
         raise InvalidUsage("\"string_to_cut\" key not provided in body of request", 400)
+
+    if type(req_string) is not str:
+        raise InvalidUsage("The value you provided is not a string", 400)
+
     res_string = cut_string(req_string)
 
     return jsonify(return_string=res_string)

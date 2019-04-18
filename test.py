@@ -13,34 +13,28 @@ class ApplicationTest(unittest.TestCase):
 
     def test_response(self):
         """"""
-        response = self.client.post('/test', json={
+        response_odd = self.client.post('/test', json={
             "string_to_cut":"iamyourlyftdriver",
             })
-        self.assertEqual(response.json["return_string"], "muydv")
+        response_even = self.client.post('/test', json={
+            "string_to_cut":"zxawub",
+            })
+        response_empty = self.client.post('/test', json={
+            "string_to_cut":"",
+            })
+        self.assertEqual(response_odd.json["return_string"], "muydv")
+        self.assertEqual(response_even.json["return_string"], "ab")
+        self.assertEqual(response_empty.json["return_string"], "")
 
 
     def test_error_response(self):
         """"""
-        response = self.client.post('/cupcakes', json={
-            "flavor":"shoe laces",
-            "size":"smallish",
-            "rating":7,
-            "image":""
+        response_wrong_key = self.client.post('/test', json={
+            "string_to_cu":"iamyourlyftdriver",
             })
-        self.assertEqual(response.json["response"], "shoe laces")
-        self.assertEqual(response.json["response"]["rating"], 7.0)
-
-
-    def test_cut_string_function(self):
-        """"""
-        response = self.client.post('/cupcakes', json={ })
-        self.assertEquals(response.json['response']['flavor'], 'werewer')
-
-
-    def test_list(self):
-        """List cupcakes"""
-        response = self.client.get('/cupcakes')
-        cupcakes = response.json['cupcakes']
-        self.assertEqual(len(cupcakes),1)
-        self.assertEqual(cupcakes[0]['flavor'],'testing')
+        response_not_string = self.client.post('/test', json={
+            "string_to_cut":2,
+            })
+        self.assertEqual(response_wrong_key.json["message"], "\"string_to_cut\" key not provided in body of request")
+        self.assertEqual(response_not_string.json["message"], "The value you provided is not a string")
 
