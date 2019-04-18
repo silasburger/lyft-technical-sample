@@ -11,8 +11,15 @@ class ApplicationTest(unittest.TestCase):
         """Set up our test client"""
         self.client = app.test_client()
 
+    def test_cut_string(self):
+        """Unit test the cut_string function"""
+        self.assertEqual(cut_string('uiaytbjkc'), 'abc')
+        self.assertEqual(cut_string('qw'), '')
+        self.assertEqual(cut_string('wecvs'), "c")
+
+
     def test_response(self):
-        """"""
+        """Integration test of the /test route"""
         response_odd = self.client.post('/test', json={
             "string_to_cut":"iamyourlyftdriver",
             })
@@ -28,7 +35,7 @@ class ApplicationTest(unittest.TestCase):
 
 
     def test_error_response(self):
-        """"""
+        """Test that errors are being handled correctly"""
         response_wrong_key = self.client.post('/test', json={
             "string_to_cu":"iamyourlyftdriver",
             })
